@@ -15,8 +15,60 @@ const onClickAdd = () => {
   //完了ボタンの作成
   const completeButton = document.createElement("button");
   completeButton.innerText = "完了";
+
   completeButton.addEventListener("click", () => {
-    alert("完了");
+    //押された削除ボタンの親タグ（div）を未完了リストから消す
+    deleteFromInompleteList(completeButton.parentNode);
+
+    //完了リストに追加する要素
+    const addTarget = completeButton.parentNode;
+
+    //todoの課髪をtextとして取得
+    const text = addTarget.firstElementChild.innerText;
+
+    //div以下を初期化
+    addTarget.textContent = null;
+
+    //liタグの作成
+    const li = document.createElement("li");
+    li.innerText = text;
+
+    //戻るボタンの作成
+    const returnButton = document.createElement("button");
+    returnButton.innerText = "戻す";
+
+    //---------------------------------------------------
+    //戻るボタンクリック時の機能
+    returnButton.addEventListener("click", () => {
+      //押された戻るボタンの親タグを完了リストから消す
+      const returnTarget = returnButton.parentNode;
+      document.getElementById("complete-list").removeChild(returnTarget);
+
+      //未完了リストに追加する要素
+      //const backTarget = returnButton.parentNode;
+
+      //todoの課髪をtextとして取得 テキストの取得
+      const backtext = returnButton.parentNode.firstElementChild.innerText;
+      console.log(backtext);
+
+      //div以下を初期化
+      //backTarget.textContent = null;
+
+      //liタグの作成
+      // const li = document.createElement("li");
+      // li.innerText = backtext;
+
+      //document.getElementById("incomplete-list").appendChild(div);
+    });
+
+    //---------------------------------------------------
+
+    //divタグの子要素に各要素を指定
+    div.appendChild(li);
+    div.appendChild(returnButton);
+    console.log(addTarget);
+    //htmlに反映
+    document.getElementById("complete-list").appendChild(div);
   });
 
   //削除ボタンの作成
@@ -24,28 +76,8 @@ const onClickAdd = () => {
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
     //押された削除ボタンの親タグ（div）を未完了リストから消す
-    const deleteTarget = deleteButton.parentNode; //親要素を取得
-    document.getElementById("incomplete-list").removeChild(deleteTarget);
-    console.log(deleteTarget);
+    deleteFromInompleteList(completeButton.parentNode);
   });
-
-  //divの作成　jsで、htmlを作成する。 class名　list-rowを指定--------------------------------
-  const div2 = document.createElement("div");
-  div2.className = "list-row";
-
-  //liタグの作成
-  const li2 = document.createElement("li");
-  li2.innerText = inputText;
-  //戻るボタンの作成
-
-  const returnButton = document.createElement("button");
-  returnButton.innerText = "戻す";
-  returnButton.addEventListener("click", () => {
-    alert("return");
-  });
-  div2.appendChile(li2);
-  div2.appendChild(returnButton);
-  //-------------------------------------------------------------------------------------
 
   //divタグの子要素に各要素を設定
   div.appendChild(li);
@@ -55,6 +87,14 @@ const onClickAdd = () => {
   //未完了リストに追加　ここで初めて使える
   document.getElementById("incomplete-list").appendChild(div);
 };
+
+//未完了のリストから中身を消す（完了でも、削除委でもどっちにしろ消すから一般化）
+const deleteFromInompleteList = (target) => {
+  document.getElementById("incomplete-list").removeChild(target);
+};
+
+//未完了リストに追加する関数
+const createIncompleteList = (text) => {};
 
 document
   .getElementById("add-button")
